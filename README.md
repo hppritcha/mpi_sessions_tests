@@ -42,6 +42,13 @@ make -j install
 ```
 export PATH=my_sandbox/bin:$PATH
 make
-./prrte --daemonize
+./prte --daemonize
+prun -n 4 ./sessions_ex1
+prun -n 4 ./sessions_ex2
+prun -n 4 ./sessions_ex2 mpi://world
+prun -n 4 ./sessions_test
 ```
+This example assumes your system has at least 4 slots available for MPI processes.
+Also, prte is a work in progress.  It may be best to kill the prte daemon after each
+run and restart the prte daemon.
 
