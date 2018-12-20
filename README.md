@@ -44,7 +44,6 @@ export PATH=my_sandbox/bin:$PATH
 make
 ./prte --daemonize
 prun -n 4 ./sessions_ex1
-prun -n 4 ./sessions_ex2
 prun -n 4 ./sessions_ex2 mpi://world
 prun -n 4 ./sessions_test
 ```
