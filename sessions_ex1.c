@@ -17,7 +17,8 @@ int library_foo_init(void)
        MPI_Flags flags = MPI_FLAG_THREAD_CONCURRENT;
        MPI_Group wgroup = MPI_GROUP_NULL;
 
-       MPI_Session_init(&flags, MPI_INFO_NULL, MPI_ERRORS_RETURN, &lib_shandle);
+       rc = MPI_Session_init(&flags, MPI_INFO_NULL, MPI_ERRORS_RETURN,
+                             &lib_shandle);
        if (rc != MPI_SUCCESS) {
            return -1;
        }
@@ -36,11 +37,12 @@ int library_foo_init(void)
        /*
         * get a communicator
         */
-       rc = MPI_Comm_create_from_group(wgroup, "library_foo_init",
+       rc = MPI_Comm_create_from_group(wgroup, "mpi.forum.example",
                                        MPI_INFO_NULL,
                                        MPI_ERRORS_RETURN,
                                        &lib_comm);
        if (rc != MPI_SUCCESS) {
+           MPI_Group_free(&wgroup);
            MPI_Session_finalize(&lib_shandle);
            return -1;
        }
