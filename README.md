@@ -29,7 +29,7 @@ make -j install
 ## Installing the prototype
 
 ```
-git clone git@github.com:hjelmn/ompi.git
+git clone git@github.com:hpc/ompi.git
 cd ompi
 git checkout sessions
 ./autogen.pl
