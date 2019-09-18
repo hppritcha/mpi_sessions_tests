@@ -44,7 +44,7 @@ int main(int argc, char *argv[])
                                 sets are suppose to be available */
 
        for (i = 0, pset_name = NULL; i < n_psets; i++) {
-            rc = MPI_Session_get_psetlen(shandle, i, &psetlen);
+            rc = MPI_Session_get_nth_psetlen(shandle, i, &psetlen);
             if (rc != MPI_SUCCESS) goto exit_w_err;
             pset_name = (char *)malloc(sizeof(char) * (psetlen + 1));
             rc = MPI_Session_get_nth_pset(shandle, i, psetlen + 1, pset_name);

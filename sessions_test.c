@@ -45,7 +45,7 @@ int main (int argc, char *argv[]) {
   for (int i = 0 ; i < npsets ; ++i) {
     int psetlen;
     char name[256];
-    MPI_Session_get_psetlen (session, i, &psetlen);
+    MPI_Session_get_nth_psetlen (session, i, &psetlen);
     MPI_Session_get_nth_pset (session, i, psetlen, name);
     fprintf (stderr, "  PSET %d: %s (len: %d)\n", i, name, psetlen);
   }
