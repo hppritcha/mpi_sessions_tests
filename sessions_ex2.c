@@ -15,23 +15,27 @@ int main(int argc, char *argv[])
        int ar_out, flag = 0;
        char *pset_name;
        char info_val[MPI_MAX_INFO_VAL];
-       MPI_Flags flags = MPI_FLAG_THREAD_CONCURRENT, in_flags;
        MPI_Session shandle = MPI_SESSION_NULL;
        MPI_Info sinfo = MPI_INFO_NULL;
+       MPI_Info info = MPI_INFO_NULL;
        MPI_Group pgroup = MPI_GROUP_NULL;
        MPI_Comm pcomm;
+       const char ts_level_req[] = "MPI_THREAD_MULTIPLE";
 
        if (argc < 2) {
            fprintf(stderr, "A process set name is required\n");
-           return -1;
+           exit -1;
        }
 
-       in_flags = flags;
-       MPI_Session_init(&in_flags, MPI_INFO_NULL, MPI_ERRORS_RETURN, &shandle);
-       if (flags != in_flags) {
-           fprintf(stderr, "Could not initialize session, bailing out\n");
-           exit(-1);
+       rc = MPI_Info_create (&info);
+       if (MPI_SUCCESS != rc) {
+           fprintf (stderr, "Info creation failed with rc = %d\n", rc);
+           abort ();
        }
+
+       MPI_Info_set(info, "thread_support_level", ts_level_req);
+
+       MPI_Session_init(info, MPI_ERRORS_RETURN, &shandle);
 
        rc = MPI_Session_get_num_psets(shandle, &n_psets);
        if (rc != MPI_SUCCESS) goto exit_w_err;
@@ -122,6 +126,7 @@ int main(int argc, char *argv[])
        MPI_Comm_free(&pcomm);
        MPI_Group_free(&pgroup);
        MPI_Info_free(&sinfo);
+       MPI_Info_free(&info);
        MPI_Session_finalize(&shandle);
        fprintf(stderr, "Test passed\n");
        exit(0);
@@ -129,6 +134,7 @@ int main(int argc, char *argv[])
 exit_w_err:
        if (pset_name != NULL) free(pset_name);
        if (sinfo != MPI_INFO_NULL) MPI_Info_free(&sinfo);
+       if (info != MPI_INFO_NULL) MPI_Info_free(&info);
        if (pgroup != MPI_GROUP_NULL) MPI_Group_free(&pgroup);
        if (pcomm != MPI_COMM_NULL) MPI_Comm_free(&pcomm);
        MPI_Session_finalize(&shandle);

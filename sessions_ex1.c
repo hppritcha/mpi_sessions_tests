@@ -14,10 +14,9 @@ int library_foo_init(void)
 {
        int rc;
        const char pset_name[] = "mpi://WORLD";
-       MPI_Flags flags = MPI_FLAG_THREAD_CONCURRENT;
        MPI_Group wgroup = MPI_GROUP_NULL;
 
-       rc = MPI_Session_init(&flags, MPI_INFO_NULL, MPI_ERRORS_RETURN,
+       rc = MPI_Session_init(MPI_INFO_NULL, MPI_ERRORS_RETURN,
                              &lib_shandle);
        if (rc != MPI_SUCCESS) {
            return -1;

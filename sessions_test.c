@@ -9,7 +9,6 @@ void my_session_errhandler (MPI_Session *foo, int *bar, ...)
 }
 
 int main (int argc, char *argv[]) {
-  MPI_Flags flags = MPI_FLAG_THREAD_CONCURRENT;
   MPI_Session session;
   MPI_Errhandler test;
   MPI_Group group;
@@ -29,7 +28,13 @@ int main (int argc, char *argv[]) {
     abort ();
   }
 
-  rc = MPI_Session_init (&flags, info, test, &session);
+  rc = MPI_Info_set(info, "thread_support_level", "MPI_THREAD_MULTIPLE");
+  if (MPI_SUCCESS != rc) {
+    fprintf (stderr, "Info key/val set failed with rc = %d\n", rc);
+    abort ();
+  }
+
+  rc = MPI_Session_init (info, test, &session);
   if (MPI_SUCCESS != rc) {
     fprintf (stderr, "Session initialization failed with rc = %d\n", rc);
     abort ();
