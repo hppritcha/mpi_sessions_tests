@@ -25,12 +25,14 @@
 # Use the Open MPI-provided wrapper compilers.
 
 MPICC = mpicc
+MPIFC = mpifort
 
 # Example programs to build
 
 EXAMPLES = \
 	 sessions_ex1 \
 	 sessions_ex2 \
+	 sessions_ex3 \
 	 sessions_test
 
 
@@ -53,3 +55,6 @@ sessions_ex2: sessions_ex2.c
 	$(MPICC) $(CFLAGS) $(LDFLAGS) $? $(LDLIBS) -o $@
 sessions_test: sessions_test.c
 	$(MPICC) $(CFLAGS) $(LDFLAGS) $? $(LDLIBS) -o $@
+sessions_ex3: sessions_ex3.f90
+	$(MPIFC) $(FCFLAGS) $(LDFLAGS) $? $(LDLIBS) -o $@
+
