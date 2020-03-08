@@ -33,6 +33,7 @@ EXAMPLES = \
 	 sessions_ex1 \
 	 sessions_ex2 \
 	 sessions_ex3 \
+	 sessions_ex4 \
 	 sessions_test
 
 
@@ -52,6 +53,8 @@ clean:
 sessions_ex1: sessions_ex1.c
 	$(MPICC) $(CFLAGS) $(LDFLAGS) $? $(LDLIBS) -o $@
 sessions_ex2: sessions_ex2.c
+	$(MPICC) $(CFLAGS) $(LDFLAGS) $? $(LDLIBS) -o $@
+sessions_ex4: sessions_ex4.c
 	$(MPICC) $(CFLAGS) $(LDFLAGS) $? $(LDLIBS) -o $@
 sessions_test: sessions_test.c
 	$(MPICC) $(CFLAGS) $(LDFLAGS) $? $(LDLIBS) -o $@

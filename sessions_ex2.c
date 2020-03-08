@@ -37,17 +37,18 @@ int main(int argc, char *argv[])
 
        MPI_Session_init(info, MPI_ERRORS_RETURN, &shandle);
 
-       rc = MPI_Session_get_num_psets(shandle, &n_psets);
+       rc = MPI_Session_get_num_psets(shandle, MPI_INFO_NULL, &n_psets);
        if (rc != MPI_SUCCESS) goto exit_w_err;
 
        assert(n_psets >= 2);  /* WORLD and SELF process
                                 sets are suppose to be available */
 
        for (i = 0, pset_name = NULL; i < n_psets; i++) {
-            rc = MPI_Session_get_nth_psetlen(shandle, i, &psetlen);
+            psetlen = 0;
+            rc = MPI_Session_get_nth_pset(shandle, MPI_INFO_NULL, i, &psetlen, NULL);
             if (rc != MPI_SUCCESS) goto exit_w_err;
-            pset_name = (char *)malloc(sizeof(char) * (psetlen + 1));
-            rc = MPI_Session_get_nth_pset(shandle, i, psetlen + 1, pset_name);
+            pset_name = (char *)malloc(sizeof(char) * psetlen);
+            rc = MPI_Session_get_nth_pset(shandle, MPI_INFO_NULL, i, &psetlen, pset_name);
             if (rc != MPI_SUCCESS) goto exit_w_err;
 
             if (strcmp(pset_name, argv[1]) == 0) break;

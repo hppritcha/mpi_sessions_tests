@@ -14,7 +14,7 @@ program main
        ERROR STOP
     end if
 
-    call MPI_Session_get_num_psets(shandle, n_psets)
+    call MPI_Session_get_num_psets(shandle, MPI_INFO_NULL, n_psets)
     IF (n_psets .lt. 2)  THEN
        write(*,*) "MPI_Session_get_num_psets didn't return at least 2 psets"
        ERROR STOP
@@ -25,11 +25,12 @@ program main
 !   Note that index values are zero-based, even in Fortran
 !
 
-    call MPI_Session_get_nth_psetlen(shandle, 1, pset_len)
+    pset_len = 0
+    call MPI_Session_get_nth_pset(shandle, MPI_INFO_NULL, 1, pset_len, pset_name)
 
     allocate(character(len=pset_len)::pset_name)
 
-    call MPI_Session_get_nth_pset(shandle, 1, pset_len, pset_name)
+    call MPI_Session_get_nth_pset(shandle, MPI_INFO_NULL, 1, pset_len, pset_name)
 
 !
 !   create a group from the pset
