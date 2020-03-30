@@ -30,7 +30,7 @@ MPIFC = mpifort
 # Example programs to build
 
 EXAMPLES = \
-	 sessions_ex1 \
+	 sessions_ex1.o \
 	 sessions_ex2 \
 	 sessions_ex3 \
 	 sessions_ex4 \
@@ -41,7 +41,19 @@ EXAMPLES = \
 # others if we have the appropriate Open MPI / OpenSHMEM language
 # bindings.
 
-all: $(EXAMPLES)
+all: sessions_ex1.o sessions_ex2 sessions_test
+	@ if which ompi_info >/dev/null 2>&1 ; then \
+		$(MAKE) mpi; \
+	fi
+
+mpi:
+	@ if ompi_info --parsable | grep -q bindings:use_mpi_f08:yes >/dev/null; then \
+		$(MAKE) sessions_ex3 ; \
+	fi
+	@ if ompi_info --parsable | egrep -q bindings:use_mpi:\"\?yes >/dev/null; then \
+		$(MAKE) sessions_ex4 ; \
+        fi
+
 
 # The usual "clean" target
 
@@ -50,14 +62,14 @@ clean:
 
 # Don't rely on default rules for the Fortran and Java examples
 
-sessions_ex1: sessions_ex1.c
-	$(MPICC) $(CFLAGS) $(LDFLAGS) $? $(LDLIBS) -o $@
+sessions_ex1.o: sessions_ex1.c
+	$(MPICC) -c $(CFLAGS) $(LDFLAGS) $? $(LDLIBS) -o $@
 sessions_ex2: sessions_ex2.c
-	$(MPICC) $(CFLAGS) $(LDFLAGS) $? $(LDLIBS) -o $@
-sessions_ex4: sessions_ex4.c
-	$(MPICC) $(CFLAGS) $(LDFLAGS) $? $(LDLIBS) -o $@
-sessions_test: sessions_test.c
 	$(MPICC) $(CFLAGS) $(LDFLAGS) $? $(LDLIBS) -o $@
 sessions_ex3: sessions_ex3.f90
 	$(MPIFC) $(FCFLAGS) $(LDFLAGS) $? $(LDLIBS) -o $@
+sessions_ex4: sessions_ex4.f90
+	$(MPIFC) $(CFLAGS) $(LDFLAGS) $? $(LDLIBS) -o $@
+sessions_test: sessions_test.c
+	$(MPICC) $(CFLAGS) $(LDFLAGS) $? $(LDLIBS) -o $@
 

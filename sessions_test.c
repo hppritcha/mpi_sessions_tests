@@ -14,7 +14,7 @@ int main (int argc, char *argv[]) {
   MPI_Group group;
   MPI_Comm comm_world, comm_self;
   MPI_Info info;
-  int rc, npsets, one = 1, sum;
+  int rc, npsets, one = 1, sum, i;
 
   rc = MPI_Session_create_errhandler (my_session_errhandler, &test);
   if (MPI_SUCCESS != rc) {
@@ -41,7 +41,7 @@ int main (int argc, char *argv[]) {
   }
 
   rc = MPI_Session_get_num_psets (session, MPI_INFO_NULL, &npsets);
-  for (int i = 0 ; i < npsets ; ++i) {
+  for (i = 0 ; i < npsets ; ++i) {
     int psetlen;
     char name[256];
     MPI_Session_get_nth_pset (session, MPI_INFO_NULL, i, &psetlen, NULL);
