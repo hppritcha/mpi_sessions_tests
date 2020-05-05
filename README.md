@@ -31,7 +31,7 @@ make -j install
 ```
 git clone git@github.com:hpc/ompi.git
 cd ompi
-git checkout sessions
+git checkout sessions_new
 ./autogen.pl
 ./configure --prefix=my_sandbox --with-libevent --with-pmix=my_sandbox
 make -j install
