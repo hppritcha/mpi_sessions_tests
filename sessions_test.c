@@ -42,7 +42,7 @@ int main (int argc, char *argv[]) {
 
   rc = MPI_Session_get_num_psets (session, MPI_INFO_NULL, &npsets);
   for (i = 0 ; i < npsets ; ++i) {
-    int psetlen;
+    int psetlen = 0;
     char name[256];
     MPI_Session_get_nth_pset (session, MPI_INFO_NULL, i, &psetlen, NULL);
     MPI_Session_get_nth_pset (session, MPI_INFO_NULL, i, &psetlen, name);
