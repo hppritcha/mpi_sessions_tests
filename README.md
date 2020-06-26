@@ -50,8 +50,6 @@ mpirun -np 4 ./sessions_test
 ```
 
 This example assumes your system has at least 4 slots available for MPI processes.
-Also, prte is a work in progress.  It may be best to kill the prte daemon after each
-run and restart the prte daemon.
 
 Note the third example may not have been built if you are using an old Fortran compiler 
 that isn't able to generate the ```mpi_f08``` Fortran module.
@@ -126,8 +124,6 @@ prun -n 4 ./sessions_ex4
 prun -n 4 ./sessions_test
 ```
 This example assumes your system has at least 4 slots available for MPI processes.
-Also, prte is a work in progress.  It may be best to kill the prte daemon after each
-run and restart the prte daemon.
 
 ## Special instructions for Cray XC and SLURM
 
