@@ -28,7 +28,7 @@ int main (int argc, char *argv[]) {
     abort ();
   }
 
-  rc = MPI_Info_set(info, "thread_support_level", "MPI_THREAD_MULTIPLE");
+  rc = MPI_Info_set(info, "mpi_thread_support_level", "MPI_THREAD_MULTIPLE");
   if (MPI_SUCCESS != rc) {
     fprintf (stderr, "Info key/val set failed with rc = %d\n", rc);
     abort ();
