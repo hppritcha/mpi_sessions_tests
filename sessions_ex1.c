@@ -11,7 +11,7 @@ int library_foo_init(void)
     int rc, flag;
     int ret = 0;
     const char pset_name[] = "mpi://WORLD";
-    const char mt_key[] = "thread_support_level";
+    const char mt_key[] = "thread_level";
     const char mt_value[] = "MPI_THREAD_MULTIPLE";
     char out_value[100];   /* large enough */
     MPI_Group wgroup = MPI_GROUP_NULL;
